@@ -21,4 +21,28 @@ router.get('/', function(req, res, next) {
 	);
 });
 
+router.get('/contacts', function(req, res, next){
+	res.render('contacts', {
+		title: 'Contato - Restaurante Saboroso'
+	});
+});
+
+router.get('/menus', function(req, res, next){
+	res.render('menus', {
+		title: 'Menu - Restaurante Saboroso'
+	});
+});
+
+router.get('/reservations', function(req, res, next){
+	res.render('reservations', {
+		title: 'Reserva - Restaurante Saboroso'
+	});
+});
+
+router.get('/services', function(req, res, next){
+	res.render('services', {
+		title: 'Serviço - Restaurante Saboroso'
+	});
+});
+
 module.exports = router;

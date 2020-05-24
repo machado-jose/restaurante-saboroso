@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+//Para criar uma session
 var session = require('express-session');
 let RedisStore = require('connect-redis')(session);
 var redis   = require("redis");

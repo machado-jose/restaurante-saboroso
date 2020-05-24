@@ -2,7 +2,7 @@ const conn = require('./db');
 
 module.exports = {
 
-	render(req, res, error, success){
+	render(req, res, error = null, success = null){
 		res.render('reservations', {
 			title: 'Reserva - Restaurante Saboroso',
 			background: 'images/img_bg_2.jpg',

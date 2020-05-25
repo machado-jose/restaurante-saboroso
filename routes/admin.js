@@ -1,6 +1,7 @@
 const conn = require('./../inc/db');
 const login = require('./../inc/login');
 const admin = require('./../inc/admin');
+const menus = require('./../inc/menus')
 
 var express = require('express');
 var router = express.Router();
@@ -59,7 +60,35 @@ router.post('/login', function(req, res, next) {
 });
 
 router.get('/menus', function(req, res, next) {
-	res.render('admin/menus', admin.getParams(req));
+
+	menus.getMenus().then(datas=>{
+
+		res.render('admin/menus', admin.getParams(req, {
+			datas
+		}));
+
+	}).catch(err=>{
+		console.log(err);
+	});
+});
+
+router.post('/menus', function(req, res, next){
+
+	menus.save(req.fields, req.files).then(results=>{
+		res.send(results);
+	}).catch(err=>{
+		res.send(err);
+	});
+});
+
+router.delete('/menus/:id', function(req, res, next){
+
+	menus.delete(req.params.id).then(results=>{
+		res.send(results);
+	}).catch(err=>{
+		res.send(err);
+	})
+
 });
 
 router.get('/reservations', function(req, res, next) {

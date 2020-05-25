@@ -8,6 +8,7 @@ var session = require('express-session');
 let RedisStore = require('connect-redis')(session);
 var redis   = require("redis");
 var client  = redis.createClient();
+const formidable = require('formidable');
 
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
@@ -20,9 +21,33 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// A linha abaixo foi comentada pois estava dando conflito com o middleware criado para o envio do formulário
+// Se não fizer isso, a tela de login vai ficar carregando infinitamente
+//app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function(req, res, next){
+
+  if(req.method === "POST"){
+
+    var form = formidable.IncomingForm({
+      uploadDir: path.join(__dirname, 'public/images'),
+      keepExtensions: true
+    });
+
+    form.parse(req, (err, fields, files)=>{
+      req.body = fields;
+      req.fields = fields;
+      req.files = files;
+      next();
+    });
+
+  }else{
+    next();
+  }
+
+});
 
 app.use(session({
   store: new RedisStore({

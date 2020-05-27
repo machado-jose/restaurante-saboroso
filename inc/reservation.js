@@ -75,7 +75,7 @@ module.exports = {
 		return new Promise((s, f)=>{
 
 			conn.query(`
-				SELECT * FROM tb_reservations
+				SELECT * FROM tb_reservations ORDER BY date DESC
 			`, (err, results)=>{
 				err ? f(err) : s(results);
 			});

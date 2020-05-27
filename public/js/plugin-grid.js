@@ -30,7 +30,11 @@ class PluginGrid{
 			formCreate: "#modal-create form",
 	        formUpdate: "#modal-update form",
 	        btnDelete: ".btn-delete",
-	        btnUpdate: ".btn-update"
+	        btnUpdate: ".btn-update",
+	        onUpdateLoad: (form, name, data)=>{
+	        	let input = form.querySelector(`[name=${name}]`);
+	        	if(input) input.value = data[name];
+	        }
 
 		}, configs);
 

@@ -23,6 +23,7 @@ module.exports = {
 
 		});
 	},
+	
 	render(req, res, error = null){
 		res.render('admin/login', {
 			body: req.body,

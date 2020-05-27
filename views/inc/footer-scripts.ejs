@@ -24,3 +24,27 @@
 
 	<!-- Main -->
 	<script src="js/main.js"></script>
+
+	<script src="/js/plugin-form-save.js"></script>
+    <script src="/js/plugin-grid.js"></script>
+
+    <script>
+
+    	let formSubscribe = document.querySelector("#form-subscribe");
+
+    	if(formSubscribe){
+
+    		formSubscribe.save({
+
+    			success: ()=>{
+
+    				alert("Email salvo com sucesso!");
+    			},
+
+    			failure: ()=>{
+    				alert("Problema ao enviar o email");
+    			}
+    		});
+    	}
+
+    </script>

@@ -4,6 +4,7 @@ const admin = require('./../inc/admin');
 const menus = require('./../inc/menus');
 const users = require('./../inc/users');
 const contact = require('./../inc/contact');
+const emails = require('./../inc/emails');
 const reservations = require('./../inc/reservation');
 const moment = require('moment');
 
@@ -59,8 +60,6 @@ router.delete('/contacts/:id', function(req, res, next){
 	})
 
 });
-
-
 
 router.get('/login', function(req, res, next) {
 	login.render(req, res);
@@ -188,7 +187,31 @@ router.delete('/users/:id', function(req, res, next){
 });
 
 router.get('/emails', function(req, res, next) {
-	res.render('admin/emails', admin.getParams(req));
+
+	emails.getEmails().then(data=>{
+		res.render('admin/emails', admin.getParams(req, {
+			data
+		}));
+	});
+	
+});
+
+router.post('/emails', (req, res, next)=>{
+
+	emails.save(req.fields).then(results=>{
+		res.send(results);
+	}).catch(err=>{
+		res.send(err);
+	});
+});
+
+router.delete('/emails/:id', (req, res, next)=>{
+
+	emails.delete(req.params.id).then(results=>{
+		res.send(results);
+	}).catch(err=>{
+		res.send(err);
+	})
 });
 
 module.exports = router;

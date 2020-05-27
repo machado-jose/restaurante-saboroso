@@ -3,6 +3,7 @@ const login = require('./../inc/login');
 const admin = require('./../inc/admin');
 const menus = require('./../inc/menus');
 const users = require('./../inc/users');
+const contact = require('./../inc/contact');
 const reservations = require('./../inc/reservation');
 const moment = require('moment');
 
@@ -40,8 +41,26 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/contacts', function(req, res, next) {
-	res.render('admin/contacts', admin.getParams(req));
+
+	contact.getContacts().then(data=>{
+		res.render('admin/contacts', admin.getParams(req, {
+			data
+		}));
+	});
+	
 });
+
+router.delete('/contacts/:id', function(req, res, next){
+
+	contact.delete(req.params.id).then(results=>{
+		res.send(results);
+	}).catch(err=>{
+		res.send(err);
+	})
+
+});
+
+
 
 router.get('/login', function(req, res, next) {
 	login.render(req, res);

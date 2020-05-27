@@ -48,29 +48,36 @@ class PluginGrid{
 
 		this.formCreate = document.querySelector(this.options.formCreate);
 
-		this.formCreate.save({
-			success: ()=>{
-				this.fireEvents('afterFormCreate');
-			},
+		if(this.formCreate){
 
-			failure: (err)=>{
-				this.fireEvents('afterFormCreateError');
-			}
-		});
-			
+			this.formCreate.save({
+				success: ()=>{
+					this.fireEvents('afterFormCreate');
+				},
+
+				failure: (err)=>{
+					this.fireEvents('afterFormCreateError');
+				}
+			});
+
+		}
 
 		this.formUpdate = document.querySelector(this.options.formUpdate);
 
-		this.formUpdate.save({
-			success: ()=>{
-				this.fireEvents('afterFormUpdate');
-			},
+		if(this.formUpdate){
 
-			failure: (err)=>{
-				this.fireEvents('afterFormUpdateError');
-			}
-		});
-		
+			this.formUpdate.save({
+				success: ()=>{
+					this.fireEvents('afterFormUpdate');
+				},
+
+				failure: (err)=>{
+					this.fireEvents('afterFormUpdateError');
+				}
+			});
+
+		}
+
 	}
 
 	fireEvents(name, args){

@@ -19,7 +19,7 @@ module.exports = {
 						email = ?
 					WHERE id = ?
 				`;
-				
+
 				params.push(fields.id);
 
 			}else{
@@ -62,6 +62,30 @@ module.exports = {
 				err ? f(err) : s(results);
 			});
 
+		});
+	},
+
+	changePassword(req){
+
+		return new Promise((s, f)=>{
+
+			if(!req.fields.password){
+				f("Preencha a senha");
+			}else if(req.fields.password !== req.fields.passwordConfirm){
+				f("Confirme a senha corretamente.");
+			}else{
+
+				conn.query(`
+					UPDATE tb_users
+					SET password = ?
+					WHERE id = ?
+				`, [
+					req.fields.password,
+					req.fields.id
+				], (err, results)=>{
+					err ? f(err.message) : s(results);
+				});
+			}
 		});
 	}
 }

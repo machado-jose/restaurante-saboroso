@@ -9,11 +9,26 @@ let RedisStore = require('connect-redis')(session);
 var redis   = require("redis");
 var client  = redis.createClient();
 const formidable = require('formidable');
+// Para usar o socket.io
+var http = require('http');
+var socket = require('socket.io');
 
-var indexRouter = require('./routes/index');
-var adminRouter = require('./routes/admin');
 
 var app = express();
+
+//Aula MY-49
+var http = http.Server(app);
+var io = socket(http);
+
+//io -> envia a informação para todos os usuários
+//socket -> envia a informação somente para o usuário conectado
+io.on('connection', function(socket){
+
+  
+});
+
+var indexRouter = require('./routes/index')(io);
+var adminRouter = require('./routes/admin')(io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -80,4 +95,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+http.listen('3000', function(){
+  console.log("Servidor em execução");
+});

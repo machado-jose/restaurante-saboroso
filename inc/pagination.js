@@ -86,8 +86,6 @@ class Pagination{
 			});
 		}
 
-		console.log(nrstart);
-
 		for(let x = nrstart; x <= nrend; x++){
 
 			links.push({

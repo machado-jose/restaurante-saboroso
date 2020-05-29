@@ -25,7 +25,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Reservas</span>
-                <span class="info-box-number"><%= datas.nrreservations %></span>
+                <span class="info-box-number" id="nrreservations"><%= datas.nrreservations %></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -40,7 +40,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Contatos</span>
-                <span class="info-box-number"><%= datas.nrcontacts %></span>
+                <span class="info-box-number" id="nrcontacts"><%= datas.nrcontacts %></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -59,7 +59,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Menu</span>
-                <span class="info-box-number"><%= datas.nrmenus %></span>
+                <span class="info-box-number" id="nrmenus"><%= datas.nrmenus %></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -74,7 +74,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Usuários</span>
-                <span class="info-box-number"><%= datas.nrusers %></span>
+                <span class="info-box-number" id="nrusers"><%= datas.nrusers %></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -87,6 +87,33 @@
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+
+      let socket = io();
+
+      function refreshDashboard(){
+
+        fetch('/admin/dashboard').then(response=> response.json())
+        .then(json=>{
+
+          document.querySelector("#nrreservations").innerHTML = json.nrreservations;
+          document.querySelector("#nrcontacts").innerHTML = json.nrcontacts;
+          document.querySelector("#nrmenus").innerHTML = json.nrmenus;
+          document.querySelector("#nrusers").innerHTML = json.nrusers;
+
+        });
+      }
+
+      socket.on('dashboard event', function(){
+        refreshDashboard();
+      });
+
+    </script>
+
     <%- include("./inc/footer") -%>
+
 
     

@@ -1,4 +1,5 @@
 const conn = require('./db');
+const crypt = require('./crypt');
 
 module.exports = {
 
@@ -23,10 +24,15 @@ module.exports = {
 				params.push(fields.id);
 
 			}else{
+
+				let password = crypt.cryptPassword(fields.password);
+
 				query = `INSERT INTO tb_users (name, email, password) 
 					VALUES (?, ?, ?)
 				`;
-				params.push(fields.password);
+
+				params.push(password);
+				
 			}
 
 			conn.query(query, params, (err, results)=>{
@@ -75,12 +81,14 @@ module.exports = {
 				f("Confirme a senha corretamente.");
 			}else{
 
+				let password = crypt.cryptPassword(req.fields.password);
+
 				conn.query(`
 					UPDATE tb_users
 					SET password = ?
 					WHERE id = ?
 				`, [
-					req.fields.password,
+					password,
 					req.fields.id
 				], (err, results)=>{
 					err ? f(err.message) : s(results);

@@ -1,4 +1,5 @@
 const conn = require('./db');
+const crypt = require('./crypt');
 
 module.exports = {
 
@@ -6,11 +7,13 @@ module.exports = {
 
 		return new Promise((s, f)=>{
 
+			let password = crypt.cryptPassword(fields.password);
+
 			conn.query(`
 				SELECT * FROM tb_users WHERE email = ? and password = ?
 			`, [
 				fields.email,
-				fields.password
+				password
 			], function(err, results){
 
 				if(err) f(err.message);

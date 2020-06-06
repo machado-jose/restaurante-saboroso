@@ -7,6 +7,8 @@ const contact = require('./../inc/contact');
 const emails = require('./../inc/emails');
 const reservations = require('./../inc/reservation');
 const moment = require('moment');
+const formidable = require('formidable');
+const fs = require('fs');
 
 module.exports = function(io){
 
@@ -120,7 +122,24 @@ module.exports = function(io){
 
 	router.delete('/menus/:id', function(req, res, next){
 
-		menus.delete(req.params.id).then(results=>{
+		conn.query(`
+			SELECT photo FROM tb_menus WHERE id = ?
+		`, [
+			req.params.id
+		], (err, results)=>{
+			if(err){
+				res.send(err);
+			}else{
+				
+				let file = './public/' + results[0].photo;
+				
+				if(fs.existsSync(file)){
+					fs.unlinkSync(file);
+				}
+			}
+		});
+
+		menus.delete(req.params.id).then(results=>{		
 			res.send(results);
 			io.emit('dashboard event');
 		}).catch(err=>{
